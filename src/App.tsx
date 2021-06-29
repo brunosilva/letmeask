@@ -3,10 +3,11 @@ import { Button } from "./components/Button";
 function App() {
   return (
     <div>
-      <Button />
-      <Button />
-      <Button />
-      <Button />
+      <Button city="Batatais" uf="SP" />
+      <Button city="Batatais" uf="SP" />
+      <Button city="Batatais" uf="SP" />
+      <Button city="Batatais" uf="SP" />
+      <Button city="Batatais" uf="SP" />
     </div>
   );
 }
