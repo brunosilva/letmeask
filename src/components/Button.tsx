@@ -1,10 +1,11 @@
-type ButtonProps = {
-    city: string;
-    uf: string;
-}
+import { ButtonHTMLAttributes } from 'react';
+
+import '../styles/button.scss';
+    
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
 export function Button(props: ButtonProps){
     return (
-        <button>{props.city}/{props.uf}</button>
+        <button className="button" {...props} />
     )
 }
