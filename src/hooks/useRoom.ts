@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { database } from "../services/firebase";
+import { useAuth } from "./useAuth";
 
+//Record representa um object (type, value/object)
 type FirebaseQuestions = Record<string, {
     author: {
         name: string;
@@ -9,6 +11,9 @@ type FirebaseQuestions = Record<string, {
     content: string;
     isAnswered: boolean;
     isHighlighted: boolean;
+    likes: Record<string, { 
+        authorId: string;
+    }>
 }>
 
 type QuestionsProps = {
@@ -20,9 +25,12 @@ type QuestionsProps = {
     content: string;
     isAnswered: boolean;
     isHighlighted: boolean;
+    likeCount: number;
+    likeId: string | undefined;
 }
 
 export function useRoom(roomId: string){
+    const { user } = useAuth();
     const [questions, setQuestions] = useState<QuestionsProps[]>([]);
     const [title, setTitle] = useState('');
 
@@ -41,14 +49,19 @@ export function useRoom(roomId: string){
                     author: value.author,
                     isHighlighted: value.isHighlighted,
                     isAnswered: value.isAnswered,
-
+                    likeCount: Object.values(value.likes ?? {}).length,
+                    likeId: Object.entries(value.likes ?? {}).find(([key, like]) => like.authorId === user?.id)?.[0] //.some -> sempre retorna true ou false da comparação a seguir. .find retorna o que foi encontrado
                 }
             })
 
             setTitle(databaseRoom.title);
             setQuestions(parsedQuestions);
         })
-    }, [roomId])
+
+        return () => {
+            roomRef.off('value');
+        }
+    }, [roomId, user?.id])
 
     return {questions, title};
 }
