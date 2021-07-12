@@ -26,7 +26,9 @@ REACT_APP_APP_ID="..."
 ```
 
 Also have "custom hooks" `useAuth` and `useRooms`
+
+
 ## Open project
 
-1° - `npm install`
-2° - `npm run start`
+* 1° - `npm install`
+* 2° - `npm run start`
